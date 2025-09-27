@@ -1,0 +1,10 @@
+from transformers import pipeline
+sentiment_analyzer= pipeline("sentiment-analysis")
+text= ["Woow Nice dress(Compliment)",
+       "Yeahhhhhh(Seduction)",
+       "I am White(Racism)"]
+
+result = sentiment_analyzer(text)
+print(result)
+for text, result in zip(text, result):
+  print(f"'{text}'->{result['label']} ({result['score']*100:.2f}%)")
