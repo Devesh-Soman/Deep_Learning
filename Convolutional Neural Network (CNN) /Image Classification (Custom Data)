@@ -1,0 +1,16 @@
+from tramsformers import pippeline
+import requests
+from PIL import Image
+
+image_guesser= pipeline(task="zero-shot-image-classification", model="openai/clip-vit-large-patch14")
+
+image_url= "http://images.cocodataset.org/val2017/000000039769.jpg"
+your_guess= ["A photo of Dog", "A photo of a Cricketer", "A photo of a Cat"]
+results= image_guesser(image=image_url, candidate_labels=your_guess)
+
+print("I looked for image and these are the results:")
+for result in results:
+  print(f"-{result['label']}: {result['score'] *100:.2f}% sure")
+
+img=Image.open(requests.get(image_url, stream=True).raw)
+img
