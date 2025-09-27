@@ -1,0 +1,17 @@
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras.layers import Input, Dense, MultiHeadAttention, LayerNormalization, Dropout
+from tensorflow.keras.models import Model
+
+# Synthetic time series
+X = np.sin(np.linspace(0,100,1000)).reshape(-1,10,1)
+y = np.sin(np.linspace(1,101,1000)).reshape(-1,10,1)
+
+inputs = Input(shape=(10,1))
+attn = MultiHeadAttention(num_heads=2, key_dim=16)(inputs,inputs)
+x = LayerNormalization()(inputs + attn)
+x = Dense(16, activation='relu')(x)
+outputs = Dense(1)(x)
+model = Model(inputs, outputs)
+model.compile(optimizer='adam', loss='mse')
+model.fit(X, y, epochs=20, batch_size=16)
