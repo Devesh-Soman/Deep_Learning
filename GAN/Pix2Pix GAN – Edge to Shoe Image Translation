@@ -1,0 +1,13 @@
+# Dataset: edges2shoes (TensorFlow Datasets)
+# Generator: U-Net architecture
+# Discriminator: PatchGAN
+# Keras Functional API
+
+import tensorflow as tf
+import tensorflow_datasets as tfds
+
+dataset = tfds.load('edges2shoes', split='train', as_supervised=True)
+for input_image, target in dataset.take(1):
+    print("Input shape:", input_image.shape, "Target shape:", target.shape)
+    
+# Generator/Discriminator follow U-Net + PatchGAN architecture
