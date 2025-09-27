@@ -1,0 +1,15 @@
+import numpy as np
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import LSTM, Dense, Input, RepeatVector, TimeDistributed
+
+# Synthetic time series
+data = np.sin(np.linspace(0,100,1000)).reshape(-1,10,1)  # 100 sequences, 10 timesteps, 1 feature
+
+inputs = Input(shape=(10,1))
+encoded = LSTM(32)(inputs)
+decoded = RepeatVector(10)(encoded)
+decoded = LSTM(1, return_sequences=True)(decoded)
+
+autoencoder = Model(inputs, decoded)
+autoencoder.compile(optimizer='adam', loss='mse')
+autoencoder.fit(data, data, epochs=20, batch_size=16)
