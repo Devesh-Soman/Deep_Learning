@@ -1,0 +1,6 @@
+import tensorflow as tf
+from tensorflow.keras.layers import TextVectorization
+
+# Use small dataset like Tatoeba
+# Preprocess sentences with TextVectorization
+# Use Keras Transformer layers (MultiHeadAttention, LayerNormalization)
