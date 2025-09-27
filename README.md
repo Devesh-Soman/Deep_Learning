@@ -1,4 +1,4 @@
-📌 Deep Learning Projects Repository – Description
+📌 Deep Learning Projects Repository
 This repository is a curated collection of beginner-friendly to intermediate Deep Learning projects implemented in Python using TensorFlow, Keras, and PyTorch. Each project is self-contained with code, dataset links, results, and documentation so that it can be directly run on Google Colab without additional setup.
 The goal of this repo is to learn by building — covering core deep learning concepts such as Convolutional Neural Networks (CNNs), Recurrent Neural Networks (RNNs/LSTMs), Autoencoders, GANs, and Transformers.
 
