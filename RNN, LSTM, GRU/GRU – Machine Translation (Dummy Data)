@@ -1,0 +1,14 @@
+import tensorflow as tf
+from tensorflow.keras.layers import Embedding, GRU, Dense, Input
+from tensorflow.keras.models import Model
+enc_in=Input(shape=(None,))
+x=Embedding(1000,64)(enc_in)
+enc_out,state=GRU(128,return_state=True)(x)
+dec_in=Input(shape=(None,))
+y=Embedding(1000,64)(dec_in)
+dec_gru=GRU(128,return_sequences=True)
+dec_out=dec_gru(y,initial_state=state)
+dec_dense=Dense(1000,activation="softmax")(dec_out)
+model=Model([enc_in,dec_in],dec_dense)
+model.compile(optimizer="adam",loss="sparse_categorical_crossentropy")
+print("GRU translation model built ✅")
