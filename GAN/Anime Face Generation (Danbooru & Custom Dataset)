@@ -1,0 +1,32 @@
+import tensorflow as tf
+from tensorflow.keras.layers import Dense, LeakyReLU, Conv2DTranspose, Flatten, Reshape
+from tensorflow.keras.models import Sequential
+
+# Assume preprocessed anime images as 64x64x3, normalized to [-1,1]
+img_shape = (64,64,3)
+
+# Generator
+generator = Sequential([
+    Dense(8*8*128, input_dim=100),
+    LeakyReLU(0.2),
+    Reshape((8,8,128)),
+    Conv2DTranspose(128,(4,4),strides=(2,2),padding='same',activation='relu'),
+    Conv2DTranspose(64,(4,4),strides=(2,2),padding='same',activation='relu'),
+    Conv2DTranspose(3,(4,4),strides=(2,2),padding='same',activation='tanh')
+])
+
+# Discriminator
+discriminator = Sequential([
+    Flatten(input_shape=img_shape),
+    Dense(512), LeakyReLU(0.2),
+    Dense(256), LeakyReLU(0.2),
+    Dense(1,activation='sigmoid')
+])
+discriminator.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
+
+discriminator.trainable=False
+gan_input=tf.keras.Input(shape=(100,))
+gan_output=discriminator(generator(gan_input))
+gan=tf.keras.Model(gan_input,gan_output)
+gan.compile(loss='binary_crossentropy',optimizer='adam')
+print("Anime GAN model ready ✅")
