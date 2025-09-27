@@ -1,0 +1,16 @@
+import numpy as np, tensorflow as tf
+text="hello world hello machine learning deep learning hello world"
+tokens=text.split(); vocab=sorted(set(tokens))
+word2idx={w:i for i,w in enumerate(vocab)}; idx2word={i:w for w,i in word2idx.items()}
+
+seq_len=3; X=[]; y=[]
+for i in range(len(tokens)-seq_len):
+    X.append([word2idx[w] for w in tokens[i:i+seq_len]])
+    y.append(word2idx[tokens[i+seq_len]])
+X=np.array(X); y=np.array(y)
+
+model=tf.keras.Sequential([tf.keras.layers.Embedding(len(vocab),10,input_length=seq_len),
+    tf.keras.layers.LSTM(50),tf.keras.layers.Dense(len(vocab),activation="softmax")])
+model.compile(loss="sparse_categorical_crossentropy",optimizer="adam")
+model.fit(X,y,epochs=200,verbose=0)
+print("Prediction:", idx2word[np.argmax(model.predict(X)[0])])
