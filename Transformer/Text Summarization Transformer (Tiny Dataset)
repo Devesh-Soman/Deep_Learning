@@ -1,0 +1,9 @@
+# Input: short sentences, Output: summaries
+from tensorflow.keras.layers import Input, Embedding, MultiHeadAttention, Dense
+import tensorflow as tf
+
+input_texts = ["The cat sat on the mat","The sun rises in the east"]
+summary_texts = ["Cat on mat","Sun rises"]
+
+# Vectorization and embedding similar to above
+# Build simple encoder-decoder transformer
