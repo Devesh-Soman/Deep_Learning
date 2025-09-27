@@ -1,0 +1,12 @@
+!pip install transformers
+from transformers import TFBertForSequenceClassification, BertTokenizer
+import tensorflow as tf
+
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased')
+
+texts = ["I love this movie!","This movie is terrible"]
+inputs = tokenizer(texts,padding=True,truncation=True,return_tensors="tf")
+labels = tf.constant([1,0])
+model.compile(optimizer='adam', loss=model.compute_loss, metrics=['accuracy'])
+model.fit(inputs.data, labels, epochs=1)
